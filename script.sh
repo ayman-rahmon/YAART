@@ -1,3 +1,18 @@
+#bin/bash
+# this script is written by Ayman Rahmon and it was designed to be run from the root user of a fresh installed arch linux system...
+
+# adding a new user and setting it up
+read username
+read password
+###### test this code ##################################
+useradd --create-home $username
+passwd ${username} << EOD
+${password}
+${new_ps}
+${new_ps}
+EOD
+
+
 
 
 
@@ -17,7 +32,20 @@ do
 	elif [ $source == 'aur' ] ; then
 		yay  -S $package
 	elif [ $source == 'Git' ] ; then
-		echo "Git one"
+		(git clone $package && cd  )
 	fi
 
 done < $filename
+# setting up ~/.xinitrc in the user's home...
+
+
+
+
+# setting up zsh as the default shell for the user...
+
+
+# oh my zsh installation...
+
+
+
+# clonning and copying all of the config files to their correct location for the user...
