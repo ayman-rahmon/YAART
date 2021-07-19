@@ -1,0 +1,69 @@
+source,package,description
+pacman,xorg-server,is the graphical server.
+pacman,xorg-xwininfo	,allows querying information about windows.
+pacman,xorg-xinit	,starts the graphical server.
+pacman,ttf-linux-libertine,"provides the sans and serif fonts for LARBS.
+"
+aur,lf-git,is an extensive terminal file manager that everyone likes.
+pacman,bc,is used for a dropdown calculator.
+pacman,xcompmgr,"is for transparency and removing screen-tearing.
+"
+pacman,xorg-xprop	,is a tool for detecting window properties.
+pacman,arandr,allows the user to customize monitor arrangements.
+pacman,dosfstools,allows your computer to access dos-like filesystems.
+pacman,libnotify,allows desktop notifications.
+pacman,dunst,is a suckless notification system.
+pacman,exfat-utils,allows management of FAT drives.
+pacman,sxiv,is a minimalist image viewer.
+pacman,xwallpaper	,sets the wallpaper.
+pacman,ffmpeg	,can record and splice video and audio on the command line.
+pacman,gnome-keyring	,serves as the system keyring.
+aur,gtk-theme-arc-gruvbox-git,gives the dark GTK theme .
+pacman,neovim,a tidier vim with some useful features
+pacman,mpd,is a lightweight music daemon.
+pacman,mpc,is a terminal interface for mpd.
+pacman,mpv,is the patrician's choice video player.
+pacman,man-db,lets you read man pages of programs.
+pacman,ncmpcpp,a ncurses interface for music with multiple formats and a powerful tag editor.
+pacman,newsboat,"is a terminal RSS client.
+"
+pacman,noto-fonts-emoji,is an emoji font.
+pacman,ntfs-3g,allows accessing NTFS partitions.
+pacman,pulseaudio-alsa,is the audio system.
+pacman,pulsemixer,is an audio controller.
+pacman,pamixer,is a command-line audio interface.
+aur,sc-im,is an Excel-like terminal spreadsheet manager.
+pacman,maim,can take quick screenshots at your request.
+aur,abook,"is an offline addressbook usable by neomutt.
+"
+pacman,unclutter	,hides an inactive mouse.
+pacman,unrar,extracts rar's.
+pacman,unzip,unzips zips.
+pacman,lynx,is a terminal browser.
+pacman,xcape,"gives the special escape/super mappings of LARBS.
+"
+pacman,xclip,"allows for copying and pasting from the command line.
+"
+pacman,xdotool,provides window action utilities on the command line.
+pacman,xorg-xdpyinfo,aids with resolution determination and screen recording.
+pacman,youtube-dl,can download any YouTube video (or playlist or channel) when given the link.
+pacman,zathura,is a pdf viewer with vim-like bindings.
+pacman,zathura-pdf-mupdf,allows mupdf pdf compatibility in zathura.
+pacman,poppler,manipulates .pdfs and gives .pdf previews and other .pdf functions.
+pacman,mediainfo,shows audio and video information.
+pacman,atool,manages and gives information about archives.
+pacman,fzf,is a fuzzy finder tool.
+pacman,highlight,can highlight code output.
+pacman,xorg-xbacklight,enables changing screen brightness levels.
+aur,zsh-fast-syntax-highlighting,provides syntax highlighting in the shell.
+aur,task-spooler,queues commands or files for download.
+aur,simple-mtpfs,enables the mounting of cell phones.
+aur,htop-vim-git,is a graphical and colorful system monitor.
+Git,https://github.com/lukesmithxyz/st.git,a terminal emulator
+pacman,slock,"allows you to lock your computer , and quickly unlock it with your password."
+pacman,i3-wm ,i3 window manager.
+pacman,i3status,
+pacman,i3lock,
+,,
+,,
+,,
