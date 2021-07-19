@@ -1,11 +1,23 @@
 
 
 
-
+# update all the databases and the system...
+pacman -Syu
 
 # reading from a csv file and actually installing packages...
-while IFS=, read -r field1 ,field2 , field3
+filename="programs.csv"
+sed 1d $filename | while IFS=, read  source package description
 do
-	echo "$field1 and $field2"
+	echo "$source \t $package \t $description"
 
-done < packages.csv
+
+	if [ $source == 'pacman' ] ; then
+		pacman -S $package
+
+	elif [ $source == 'aur' ] ; then
+		yay  -S $package
+	elif [ $source == 'Git' ] ; then
+		echo "Git one"
+	fi
+
+done < $filename
