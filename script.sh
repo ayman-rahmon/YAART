@@ -32,7 +32,10 @@ do
 	elif [ $source == 'aur' ] ; then
 		yay  -S $package
 	elif [ $source == 'Git' ] ; then
-		(git clone $package && cd  )
+		repoName= basename $package | sed 's/.\{4\}$//'
+		(git clone $package && cd repoName && makepkg -si)
+		rm -rf repoName
+
 	fi
 
 done < $filename
