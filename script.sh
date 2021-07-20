@@ -11,6 +11,9 @@ ${password}
 EOD
 
 
+#useradd -m -g wheel -s /bin/zsh "$username" > /dev/nul
+
+
 
 
 
@@ -31,14 +34,14 @@ do
 		yay  -S $package
 	elif [ $source == 'Git' ] ; then
 		repoName= basename $package | sed 's/.\{4\}$//'
-		(git clone $package && cd repoName && makepkg -si)
-		rm -rf repoName
+		(git clone $package && cd $repoName && makepkg -si)
+		rm -rf $repoName
 
 	fi
 
 done < $filename
 # setting up ~/.xinitrc in the user's home...
-
+echo "exec i3" >> /home/$username/.xinitrc
 
 
 
@@ -50,3 +53,7 @@ done < $filename
 
 
 # clonning and copying all of the config files to their correct location for the user...
+repo=https://github.com/ayman-rahmon/MyConfig.git
+repoName=basename $repo | sed 's/.\{4\}$//'
+git clone $repo
+mv $repoName/config /home/$username/.config
