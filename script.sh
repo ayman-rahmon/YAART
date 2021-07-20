@@ -4,12 +4,10 @@
 # adding a new user and setting it up
 read username
 read password
-###### test this code ##################################
+###### still working on this portion and will change it today ##################################
 useradd --create-home $username
 passwd ${username} << EOD
 ${password}
-${new_ps}
-${new_ps}
 EOD
 
 
