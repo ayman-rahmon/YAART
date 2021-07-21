@@ -55,14 +55,13 @@ installPackages() {
 # check if our aur helper is installed...
 if [ $(pacman -Qqm | grep yay-git) == "yay-git" ]; then
 
-	echo installed
-
+	echo 'now we can start working on installing packages since yay is installed...'
 else
 	aurInstall $aurHelperRepo
 fi
 
 
-pacman --conconfirm -Syu
+pacman --noconfirm -Syu
 # reading from a csv file and actually installing packages...
 programsTabe="programs.csv"
 sed 1d $programsTabe | while IFS=, read  source package description
@@ -71,10 +70,12 @@ do
 
 
 	if [ $source == 'pacman' ] ; then
+		printf "installing $package which is a : $description"
 		pacman --noconfirm -S $package
 
 	elif [ $source == 'aur' ] ; then
-		yay  -S $package
+		sudo -u $username yay  -S $package
+
 	elif [ $source == 'Git' ] ; then
 		aurInstall $package
 
@@ -100,15 +101,11 @@ done < $programsTabe
 
 # update all the databases and the system...
 # setting up ~/.xinitrc in the user's home...
-echo "exec i3" >> /home/$username/.xinitrc
+# echo "exec i3" >> /home/$username/.xinitrc
 
 
 
-# setting up zsh as the default shell for the user...
-
-
-# oh my zsh installation...
-
+# st configurations...
 
 
 # clonning and copying all of the config files to their correct location for the user...
