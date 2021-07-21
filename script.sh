@@ -3,8 +3,6 @@
 
 
 # variables and choices...
-
-
 dotFilesRepo=https://github.com/ayman-rahmon/MyConfig.git
 programsTable="programs.csv"
 aurHelper="yay-git"
@@ -36,11 +34,11 @@ done;
 
 
 addUserAndPass(){
-useradd --create-home -m -g wheel -s /bin/zsh "ayman" > /dev/null
+useradd --create-home -m -g wheel -s /bin/zsh "$username" > /dev/null
 echo "$username:$password" | chpasswd
 unset password password2 ;
 }
-
+# this works with a package that has PKGBUILD file... (will fix it to work with make files later)...
 aurInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
 	repoName=$(basename $1 .git)
@@ -109,7 +107,6 @@ done < $programsTabe
 
 
 # clonning and copying all of the config files to their correct location for the user...
-repo=https://github.com/ayman-rahmon/MyConfig.git
 repoName=(basename $repo | sed 's/.\{4\}$//')
-git clone $repo
+git clone $dotFilesRepo
 mv $repoName/config /home/$username/.config

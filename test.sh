@@ -7,4 +7,4 @@ aurInstall() {
 
 
 
-aurInstall https://github.com/lukesmithxyz/st.git
+aurInstall https://github.com/cjbassi/gotop.git
