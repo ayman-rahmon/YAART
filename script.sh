@@ -7,8 +7,8 @@
 
 dotFilesRepo=https://github.com/ayman-rahmon/MyConfig.git
 programsTable="programs.csv"
-aurHelper="yay"
-
+aurHelper="yay-git"
+aurHelperRepo="https://aur.archlinux.org/yay.git"
 
 
 
@@ -36,16 +36,34 @@ done;
 
 
 addUserAndPass(){
+useradd --create-home -m -g wheel -s /bin/zsh "ayman" > /dev/null
+echo "$username:$password" | chpasswd
+unset password password2 ;
+}
 
+aurInstall() {
+	repoName=$(basename $1 .git)
+
+	(git clone $1 && cd $repoName && makepkg -si)
+	rm -rf $repoName
 
 }
 
 
 
+# installs all the packages in the table with the appropriate method of installation
+installPackages() {
+# check if our aur helper is installed...
+if [ $(pacman -Qqm | grep yay-git) == "yay-git" ]; then
 
-# update all the databases and the system...
-pacman -Syu
+	echo installed
 
+else
+	aurInstall $aurHelperRepo
+fi
+
+
+pacman --conconfirm -Syu
 # reading from a csv file and actually installing packages...
 programsTabe="programs.csv"
 sed 1d $programsTabe | while IFS=, read  source package description
@@ -54,18 +72,34 @@ do
 
 
 	if [ $source == 'pacman' ] ; then
-		pacman -S $package
+		pacman --noconfirm -S $package
 
 	elif [ $source == 'aur' ] ; then
 		yay  -S $package
 	elif [ $source == 'Git' ] ; then
-		repoName=(basename $package | sed 's/.\{4\}$//')
-		(git clone $package && cd $repoName && makepkg -si)
-		rm -rf $repoName
+		aurInstall $package
 
 	fi
 
 done < $programsTabe
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+################# start of functional programming... #################
+
+
+# update all the databases and the system...
 # setting up ~/.xinitrc in the user's home...
 echo "exec i3" >> /home/$username/.xinitrc
 

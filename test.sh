@@ -1,5 +1,7 @@
+if [ $(pacman -Qqm | grep yay-git) == "yay-git" ]; then
 
+	echo installed
 
-
-useradd --create-home -m -g wheel -s /bin/zsh "ayman" > /dev/null
-echo "ayman:123" | chpasswd
+else
+	echo "not installed..."
+fi
