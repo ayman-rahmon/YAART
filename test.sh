@@ -1,14 +1,5 @@
 
 
-read -sp 'Enter New Password : ' password
-printf "\n"
-read -sp 'Repeat New Password: ' password2
-while ! [ "$password" = "$password2" ]; do
-	printf "\n"
-	printf "passwords don't match, try again!"
-	printf "\n"
-	read -sp 'Enter New Password : ' password
-	printf "\n"
-	read -sp 'Repeat New Password: ' password2
 
-done;
+useradd --create-home -m -g wheel -s /bin/zsh "ayman" > /dev/null
+echo "ayman:123" | chpasswd
