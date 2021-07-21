@@ -1,14 +1,17 @@
 #bin/bash
 # this script is written by Ayman Rahmon and it was designed to be run from the root user of a fresh installed arch linux system...
 
+
+
+
 # adding a new user and setting it up
-read username
-read password
+#read username
+#read password
 ###### still working on this portion and will change it today ##################################
-useradd --create-home $username
-passwd ${username} << EOD
-${password}
-EOD
+#useradd --create-home $username
+#passwd ${username} << EOD
+#${password}
+#EOD
 
 
 #useradd -m -g wheel -s /bin/zsh "$username" > /dev/nul
@@ -33,7 +36,7 @@ do
 	elif [ $source == 'aur' ] ; then
 		yay  -S $package
 	elif [ $source == 'Git' ] ; then
-		repoName= basename $package | sed 's/.\{4\}$//'
+		repoName=(basename $package | sed 's/.\{4\}$//')
 		(git clone $package && cd $repoName && makepkg -si)
 		rm -rf $repoName
 
@@ -54,6 +57,6 @@ echo "exec i3" >> /home/$username/.xinitrc
 
 # clonning and copying all of the config files to their correct location for the user...
 repo=https://github.com/ayman-rahmon/MyConfig.git
-repoName=basename $repo | sed 's/.\{4\}$//'
+repoName=(basename $repo | sed 's/.\{4\}$//')
 git clone $repo
 mv $repoName/config /home/$username/.config
