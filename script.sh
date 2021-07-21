@@ -14,9 +14,29 @@
 #EOD
 
 
-#useradd -m -g wheel -s /bin/zsh "$username" > /dev/nul
+# get the username and password...
+getUserAndPass(){
+# prompt the user to enter their userName and validate it...
+read -p 'UserName: ' userName
+while !  echo "$userName" | grep -q "^[a-z_][a-z0-9_-]*$" ; do
+ read -p 'userName not valid please start the username with a letter and contains only letters and numbers: ' userName
+done ;
+# prompt the user to Enter the password and validate it...
+read -sp 'Enter New Password : ' password
+printf "\n"
+read -sp 'Repeat New Password: ' password2
+while ! [ "$password" = "$password2" ]; do
+	printf "\n"
+	printf "passwords don't match, try again!"
+	printf "\n"
+	read -sp 'Enter New Password : ' password
+	printf "\n"
+	read -sp 'Repeat New Password: ' password2
+
+done;
 
 
+}
 
 
 
