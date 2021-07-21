@@ -1,10 +1,12 @@
-aurInstall() {
-	# consider keeping the source somewhere in the system later (for suckless programs)...
-	repoName=$(basename $1 .git)
-	(git clone $1 && cd $repoName && makepkg -si)
-	rm -rf $repoName
+dotFilesRepo=https://github.com/ayman-rahmon/MyConfig.git
+
+
+setUpConfigs(){
+repoName=$(basename $dotFilesRepo .git)
+git clone $dotFilesRepo
+mv $repoName/config /home/tatsujin/projects/bash/.config
+
 }
 
 
-
-aurInstall https://github.com/cjbassi/gotop.git
+setUpConfigs

@@ -7,8 +7,13 @@ dotFilesRepo=https://github.com/ayman-rahmon/MyConfig.git
 programsTable="programs.csv"
 aurHelper="yay-git"
 aurHelperRepo="https://aur.archlinux.org/yay.git"
+environment="i3-wm" # this is for later when i add more options for the users to install more set ups...
+
+introduction() {
 
 
+
+}
 
 # get the username and password...
 getUserAndPass(){
@@ -61,7 +66,6 @@ fi
 
 pacman --noconfirm -Syu
 # reading from a csv file and actually installing packages...
-programsTabe="programs.csv"
 sed 1d $programsTabe | while IFS=, read  source package description
 do
 	# echo "$source \t $package \t $description"
@@ -86,7 +90,12 @@ done < $programsTabe
 }
 
 
+setUpConfigs(){
+repoName=$(basename $repo .git)
+git clone $dotFilesRepo
+mv $repoName/* /home/$username/.config
 
+}
 
 
 
@@ -107,6 +116,3 @@ done < $programsTabe
 
 
 # clonning and copying all of the config files to their correct location for the user...
-repoName=(basename $repo | sed 's/.\{4\}$//')
-git clone $dotFilesRepo
-mv $repoName/config /home/$username/.config
