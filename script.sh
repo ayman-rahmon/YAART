@@ -91,7 +91,7 @@ done < $programsTabe
 
 
 setUpConfigs(){
-repoName=$(basename $repo .git)
+repoName=$(basename $dotFilesRepo .git)
 git clone $dotFilesRepo
 mv $repoName/* /home/$username/.config
 
