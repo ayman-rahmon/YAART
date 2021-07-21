@@ -2,16 +2,14 @@
 # this script is written by Ayman Rahmon and it was designed to be run from the root user of a fresh installed arch linux system...
 
 
+# variables and choices...
 
 
-# adding a new user and setting it up
-#read username
-#read password
-###### still working on this portion and will change it today ##################################
-#useradd --create-home $username
-#passwd ${username} << EOD
-#${password}
-#EOD
+dotFilesRepo=https://github.com/ayman-rahmon/MyConfig.git
+programsTable="programs.csv"
+aurHelper="yay"
+
+
 
 
 # get the username and password...
@@ -19,7 +17,7 @@ getUserAndPass(){
 # prompt the user to enter their userName and validate it...
 read -p 'UserName: ' userName
 while !  echo "$userName" | grep -q "^[a-z_][a-z0-9_-]*$" ; do
- read -p 'userName not valid please start the username with a letter and contains only letters and numbers: ' userName
+ 	read -p 'userName not valid please start the username with a letter and contains only letters and numbers: ' userName
 done ;
 # prompt the user to Enter the password and validate it...
 read -sp 'Enter New Password : ' password
@@ -34,9 +32,14 @@ while ! [ "$password" = "$password2" ]; do
 	read -sp 'Repeat New Password: ' password2
 
 done;
+}
+
+
+addUserAndPass(){
 
 
 }
+
 
 
 
@@ -44,10 +47,10 @@ done;
 pacman -Syu
 
 # reading from a csv file and actually installing packages...
-filename="programs.csv"
-sed 1d $filename | while IFS=, read  source package description
+programsTabe="programs.csv"
+sed 1d $programsTabe | while IFS=, read  source package description
 do
-	echo "$source \t $package \t $description"
+	# echo "$source \t $package \t $description"
 
 
 	if [ $source == 'pacman' ] ; then
@@ -62,7 +65,7 @@ do
 
 	fi
 
-done < $filename
+done < $programsTabe
 # setting up ~/.xinitrc in the user's home...
 echo "exec i3" >> /home/$username/.xinitrc
 
