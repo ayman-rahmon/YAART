@@ -94,25 +94,26 @@ setUpConfigs(){
 repoName=$(basename $dotFilesRepo .git)
 git clone $dotFilesRepo
 mv $repoName/* /home/$username/.config
+}
+
+
+
+main() {
+	printf 'welcome to the YAART script for auto ricing.\n'
+	printf 'this script will help you rice your fresh arch install in a very easy and possibly minimalist way.'
+
+
+
+
+
+
+
+
 
 }
 
 
 
-
-
-
-
 ################# start of functional programming... #################
 
-
-# update all the databases and the system...
-# setting up ~/.xinitrc in the user's home...
-# echo "exec i3" >> /home/$username/.xinitrc
-
-
-
-# st configurations...
-
-
-# clonning and copying all of the config files to their correct location for the user...
+main
