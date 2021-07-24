@@ -47,7 +47,7 @@ unset password password2 ;
 aurInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
 	repoName=$(basename $1 .git)
-	(git clone $1 && cd $repoName && makepkg -si)
+	(git clone $1 && cd $repoName && make > /dev/null && make install)
 	rm -rf $repoName
 }
 
@@ -73,7 +73,7 @@ do
 
 	if [ $source == 'pacman' ] ; then
 		printf "installing $package which is a : $description"
-		pacman --noconfirm -S $package
+		pacman --noconfirm -S --needed $package
 
 	elif [ $source == 'aur' ] ; then
 		sudo -u $username yay  -S $package
@@ -96,6 +96,10 @@ git clone $dotFilesRepo
 mv $repoName/* /home/$username/.config
 }
 
+refreshkeys() {
+# this is method is for later... i'll just assume that the keyring is
+
+}
 
 
 main() {
