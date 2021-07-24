@@ -46,7 +46,7 @@ echo "$username:$password" | chpasswd
 unset password password2 ;
 }
 # this works with a package that has PKGBUILD file... (will fix it to work with make files later)...
-aurInstall() {
+gitInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
 	repoName=$(basename $1 .git)
 	(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
@@ -86,7 +86,7 @@ do
 		sudo -u $username yay  -S $package
 
 	elif [ $source == 'Git' ] ; then
-		aurInstall $package
+		gitInstall $package
 
 	fi
 
@@ -98,6 +98,7 @@ done < $programsTable
 
 
 setUpConfigs(){
+# add more config files to the system...
 repoName=$(basename $dotFilesRepo .git)
 git clone $dotFilesRepo
 mv $repoName/* /home/$username/.config
