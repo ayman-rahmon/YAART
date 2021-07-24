@@ -73,7 +73,7 @@ fi
 
 pacman --noconfirm -Syu
 # reading from a csv file and actually installing packages...
-sed 1d $programsTabe | while IFS=, read  source package description
+sed 1d $programsTable | while IFS=, read  source package description
 do
 	# echo "$source \t $package \t $description"
 
@@ -90,7 +90,7 @@ do
 
 	fi
 
-done < $programsTabe
+done < $programsTable
 
 
 
