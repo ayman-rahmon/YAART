@@ -10,6 +10,8 @@ aurHelperRepo="https://aur.archlinux.org/yay.git"
 environment="i3-wm" # this is for later when i add more options for the users to install more set ups...
 
 introduction() {
+	printf 'welcome to the YAART script for auto ricing.\n'
+	printf 'this script will help you rice your fresh arch install in a very easy and possibly minimalist way.'
 
 
 
@@ -47,11 +49,16 @@ unset password password2 ;
 aurInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
 	repoName=$(basename $1 .git)
-	(git clone $1 && cd $repoName && make > /dev/null && make install)
+	(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
 	rm -rf $repoName
 }
 
+installAURHelper() {
+	# method to install AUR Helper...
 
+
+
+}
 
 # installs all the packages in the table with the appropriate method of installation
 installPackages() {
@@ -103,13 +110,11 @@ refreshkeys() {
 
 
 main() {
-	printf 'welcome to the YAART script for auto ricing.\n'
-	printf 'this script will help you rice your fresh arch install in a very easy and possibly minimalist way.'
+# setting up everything to run on the right time...
 
 
 
-
-
+# allow user to use sudo...
 
 
 
@@ -119,5 +124,4 @@ main() {
 
 
 ################# start of functional programming... #################
-
 main
