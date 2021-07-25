@@ -3,10 +3,11 @@
 
 
 # variables and choices...
+aurHelperRepo=https://
 dotFilesRepo=https://github.com/ayman-rahmon/MyConfig.git
 programsTable="programs.csv"
-aurHelper="yay-git"
-aurHelperRepo="https://aur.archlinux.org/yay.git"
+aurHelper="paru"
+aurHelperRepo="https://aur.archlinux.org/paru.git"
 environment="i3-wm" # this is for later when i add more options for the users to install more set ups...
 
 introduction() {
@@ -49,8 +50,13 @@ unset password password2 ;
 gitInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
 	repoName=$(basename $1 .git)
-	(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
+	printf "installing $repoName ..."
+
+	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
+	(git clone $1 && cd $repoName && makepkg -si > /dev/null )
+	printf "cleaning up..."
 	rm -rf $repoName
+	printf "done installing $repoName ."
 }
 
 installAURHelper() {
@@ -60,10 +66,14 @@ installAURHelper() {
 
 }
 
+installAUR(){
+
+}
+
 # installs all the packages in the table with the appropriate method of installation
 installPackages() {
 # check if our aur helper is installed...
-if [ $(pacman -Qqm | grep yay-git) == "yay-git" ]; then
+if [ $(pacman -Qqm | grep yay-git) == "$aurHelper" ]; then
 
 	echo 'now we can start working on installing packages since yay is installed...'
 else
@@ -83,7 +93,7 @@ do
 		pacman --noconfirm -S --needed $package
 
 	elif [ $source == 'aur' ] ; then
-		sudo -u $username yay  -S $package
+		sudo -u "$username" $aurHelper  -S --noconfirm $package >/dev/null
 
 	elif [ $source == 'Git' ] ; then
 		gitInstall $package
