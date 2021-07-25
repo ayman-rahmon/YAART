@@ -14,13 +14,15 @@ environment="i3-wm" # this is for later when i add more options for the users to
 
 introduction() {
 	printf 'welcome to the YAART script for auto ricing.\n'
-	printf 'this script will help you rice your fresh arch install in a very easy and possibly minimalist way.'
+	printf 'this script will help you rice your fresh arch install very easily with a minimal amount of effort.'
+	printf 'we just need to ask you some questions and then the rest will be fully automated...'
 
 
 
 }
 
 # get the username and password...
+# tested...Done.
 getUserAndPass(){
 # prompt the user to enter their userName and validate it...
 read -p 'UserName: ' userName
@@ -42,7 +44,7 @@ while ! [ "$password" = "$password2" ]; do
 done;
 }
 
-
+# tested...Done.
 addUserAndPass(){
 useradd --create-home -m -g wheel -s /bin/zsh "$username" > /dev/null
 echo "$username:$password" | chpasswd
@@ -64,12 +66,12 @@ gitInstall() {
 
 installAURHelper() {
 	# method to install AUR Helper...
-
-
-
+sudo -u "$username" $aurHelper  -S --noconfirm $1 >/dev/null 2>&1
 }
 
-
+pacmanInstall(){
+pacman --noconfirm -S --needed $1 2>&1
+}
 
 # installs all the packages in the table with the appropriate method of installation
 installPackages() {
@@ -92,11 +94,11 @@ do
 	if [ $source == 'pacman' ] ; then
 		printf "installing $package which is a : $description"
 		# tested...Done.
-		pacman --noconfirm -S --needed $package 2>&1
+		pacmanInstall $package
 
 	elif [ $source == 'aur' ] ; then
 		# tested...Done.
-		sudo -u "$username" $aurHelper  -S --noconfirm $package >/dev/null 2>&1
+		installAURHelper $package
 
 	elif [ $source == 'Git' ] ; then
 		# tested...Done.
@@ -124,6 +126,19 @@ setUpConfigs(){
 
 main() {
 # setting up everything to run on the right time...
+# making sure that the script was started by the root user...
+pacman --noconfirm --needed -Sy || error "please make sure to run this script as root user..."
+# print out the introduction...
+introduction || error "user exited..."
+# getting the user and pass information...
+getUserAndPass || error "user exited..."
+#(TODO) probably it's a good idea to add some break for the user hear to confirm and start the process...
+
+# make sure that some base packages are installed ...
+for x in base-devel git ntp zsh curl; do
+	pacmanInstall "$x"
+done
+
 
 
 
