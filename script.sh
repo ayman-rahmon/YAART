@@ -4,7 +4,7 @@
 
 # dot files variables...
 dotFilesRepo=https://github.com/ayman-rahmon/MyConfig.git
-dotRepo="main"
+dotRepoBranch="main"
 # script variables...
 programsTable="programs.csv"
 aurHelper="paru"
@@ -115,7 +115,7 @@ done < $programsTable
 # tested... Done.
 setUpConfigs(){
 # add more config files to the system...
-	[ -z "$3" ] && branch="main" || branch="$dotRepo"
+	[ -z "$3" ] && branch="main" || branch="$dotRepoBranch"
 	dir=$(mktemp -d)
 	[ ! -d "$2" ] && mkdir -p "$2"
 	chown "$username":wheel "$dir" "$2"
@@ -165,6 +165,7 @@ sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
 installPackages
 
 # downloading ang setting up  the config files...
+setUpConfigs $dotFilesRepo "/home/$username" $dotRepoBranch
 
 # delete extra files from the home (that came from the config being cloned in home) ...
 
