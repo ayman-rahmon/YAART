@@ -139,10 +139,34 @@ for x in base-devel git ntp zsh curl; do
 	pacmanInstall "$x"
 done
 
+# synchronizing the system time... (TODO) test with and without... for later...
+ntpdate 0.us.pool.ntp.org >/dev/null 2>&1
+
+# add user and password...
+addUserAndPass || error "problem adding the user or the password..."
+
+# allow user to run sudo...
 
 
 
-# allow user to use sudo...
+# change pacman and paru themes...
+
+
+# use all the cores for compilation...
+
+
+
+# check and install the AURHelper code...
+
+
+# installation loop...
+
+
+
+# downloading ang setting up  the config files...
+
+# delete extra files from the home (that came from the config being cloned in home) ...
+
 
 
 
