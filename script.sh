@@ -168,7 +168,8 @@ installPackages
 setUpConfigs $dotFilesRepo "/home/$username" $dotRepoBranch
 
 # delete extra files from the home (that came from the config being cloned in home) ...
-
+# manually delete extra files and folders from the home of the user...
+rm -rf /home/$username/.git /home/$username/LICENSE /home/$username/README.md
 
 
 
