@@ -37,4 +37,8 @@ gitInstall() {
 
 #gitInstall https://aur.archlinux.org/paru.git
 #setUpConfigs $dotFilesRepo "/home/tatsujin/temp" "main"
-putgitrepo $dotFilesRepo "/home/tatsujin/temp" "$dotRepo"
+# putgitrepo $dotFilesRepo "/home/tatsujin/temp" "$dotRepo"
+
+# testing the paru installation thingy (AUR installation)...
+# sudo -u tatsujin paru -S --noconfirm google-chrome-dev >/dev/null 2>&1
+pacman --noconfirm -S --needed python-cpplint 2>&1

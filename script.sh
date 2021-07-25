@@ -49,6 +49,7 @@ echo "$username:$password" | chpasswd
 unset password password2 ;
 }
 # this works with a package that has PKGBUILD file... (will fix it to work with make files later)...
+# tested... Done.
 gitInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
 	repoName=$(basename $1 .git)
@@ -73,7 +74,7 @@ installAURHelper() {
 # installs all the packages in the table with the appropriate method of installation
 installPackages() {
 # check if our aur helper is installed...
-if [ $(pacman -Qqm | grep yay-git) == "$aurHelper" ]; then
+if [ $(pacman -Qqm | grep $aurHelper) == "$aurHelper" ]; then
 
 	echo 'now we can start working on installing packages since yay is installed...'
 else
@@ -90,12 +91,15 @@ do
 
 	if [ $source == 'pacman' ] ; then
 		printf "installing $package which is a : $description"
-		pacman --noconfirm -S --needed $package
+		# tested...Done.
+		pacman --noconfirm -S --needed $package 2>&1
 
 	elif [ $source == 'aur' ] ; then
-		sudo -u "$username" $aurHelper  -S --noconfirm $package >/dev/null
+		# tested...Done.
+		sudo -u "$username" $aurHelper  -S --noconfirm $package >/dev/null 2>&1
 
 	elif [ $source == 'Git' ] ; then
+		# tested...Done.
 		gitInstall $package
 
 	fi
@@ -106,7 +110,7 @@ done < $programsTable
 
 }
 
-
+# tested... Done.
 setUpConfigs(){
 # add more config files to the system...
 	[ -z "$3" ] && branch="main" || branch="$dotRepo"
