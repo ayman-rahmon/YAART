@@ -1,12 +1,26 @@
 dotFilesRepo=https://github.com/ayman-rahmon/MyConfig.git
-
+dotRepo="main"
 
 setUpConfigs(){
-repoName=$(basename $dotFilesRepo .git)
-git clone $dotFilesRepo
-mv $repoName/config /home/tatsujin/projects/bash/.config
-
+# add more config files to the system...
+	[ -z "$3" ] && branch="main" || branch="$dotRepo"
+	dir=$(mktemp -d)
+	[ ! -d "$2" ] && mkdir -p "$2"
+	chown tatsujin:wheel "$dir" "$2"
+	sudo -u tatsujin git clone --recursive -b "&branch" --depth 1 --recurse-submodules "$1" "$dir" > /dev/null 2>&1
+	sudo -u tatsujin cp -rfT "$dir" "$2"
 }
+
+
+putgitrepo() { # Downloads a gitrepo $1 and places the files in $2 only overwriting conflicts
+	[ -z "$3" ] && branch="main" || branch="$dotRepo"
+	dir=$(mktemp -d)
+	[ ! -d "$2" ] && mkdir -p "$2"
+	chown "$username":wheel "$dir" "$2"
+	sudo -u "$username" git clone --recursive -b "$branch" --depth 1 --recurse-submodules "$1" "$dir" >/dev/null 2>&1
+	sudo -u "$username" cp -rfT "$dir" "$2"
+	}
+
 
 gitInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
@@ -21,4 +35,6 @@ gitInstall() {
 }
 
 
-gitInstall https://aur.archlinux.org/paru.git
+#gitInstall https://aur.archlinux.org/paru.git
+#setUpConfigs $dotFilesRepo "/home/tatsujin/temp" "main"
+putgitrepo $dotFilesRepo "/home/tatsujin/temp" "$dotRepo"

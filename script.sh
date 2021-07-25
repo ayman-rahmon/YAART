@@ -2,13 +2,15 @@
 # this script is written by Ayman Rahmon and it was designed to be run from the root user of a fresh installed arch linux system...
 
 
-# variables and choices...
-aurHelperRepo=https://
+# dot files variables...
 dotFilesRepo=https://github.com/ayman-rahmon/MyConfig.git
+dotRepo="main"
+# script variables...
 programsTable="programs.csv"
 aurHelper="paru"
 aurHelperRepo="https://aur.archlinux.org/paru.git"
 environment="i3-wm" # this is for later when i add more options for the users to install more set ups...
+
 
 introduction() {
 	printf 'welcome to the YAART script for auto ricing.\n'
@@ -66,9 +68,7 @@ installAURHelper() {
 
 }
 
-installAUR(){
 
-}
 
 # installs all the packages in the table with the appropriate method of installation
 installPackages() {
@@ -109,15 +109,13 @@ done < $programsTable
 
 setUpConfigs(){
 # add more config files to the system...
-repoName=$(basename $dotFilesRepo .git)
-git clone $dotFilesRepo
-mv $repoName/* /home/$username/.config
-}
+	[ -z "$3" ] && branch="main" || branch="$dotRepo"
+	dir=$(mktemp -d)
+	[ ! -d "$2" ] && mkdir -p "$2"
+	chown "$username":wheel "$dir" "$2"
+	sudo -u "$username" git clone --recursive -b "$branch" --depth 1 --recurse-submodules "$1" "$dir" >/dev/null 2>&1
+	sudo -u "$username" cp -rfT "$dir" "$2"}
 
-refreshkeys() {
-# this is method is for later... i'll just assume that the keyring is
-
-}
 
 
 main() {
