@@ -67,7 +67,7 @@ if [ $(pacman -Qqm | grep yay-git) == "yay-git" ]; then
 
 	echo 'now we can start working on installing packages since yay is installed...'
 else
-	aurInstall $aurHelperRepo
+	gitInstall $aurHelperRepo
 fi
 
 
