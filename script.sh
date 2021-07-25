@@ -80,7 +80,7 @@ if [ $(pacman -Qqm | grep $aurHelper) == "$aurHelper" ]; then
 
 	echo 'now we can start working on installing packages since yay is installed...'
 else
-	gitInstall $aurHelperRepo
+	gitInstall $aurHelperRepo || error "couldn't install aur helper..."
 fi
 
 
@@ -146,22 +146,23 @@ ntpdate 0.us.pool.ntp.org >/dev/null 2>&1
 addUserAndPass || error "problem adding the user or the password..."
 
 # allow user to run sudo...
+[ -f /etc/sudoers.pacnew ] && cp /etc/sudoers.pacnew /etc/sudoers
 
-
-
-# change pacman and paru themes...
-
-
-# use all the cores for compilation...
-
-
-
-# check and install the AURHelper code...
-
+# make it into a function later for readability...
+printf "%wheel ALL=(ALL) ALL\n%wheel ALL=(ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot,/usr/bin/systemctl suspend,/usr/bin/wifi-menu,/usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/packer -Syu,/usr/bin/packer -Syyu,/usr/bin/systemctl restart NetworkManager,/usr/bin/rc-service NetworkManager restart,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/paru,/usr/bin/pacman -Syyuw --noconfirm" >> /etc/sudoers
 
 # installation loop...
 
 
+# change pacman and paru themes...
+grep -q "^Color" /etc/pacman.conf || sed -i "s/^#Color$/Color/" /etc/pacman.conf
+grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
+
+# use all the cores for compilation...
+sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
+
+# starting installattion loop...
+installPackages
 
 # downloading ang setting up  the config files...
 
