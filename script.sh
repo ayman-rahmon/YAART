@@ -49,11 +49,12 @@ addUserAndPass(){
 useradd --create-home -m -g wheel -s /bin/zsh "$username" > /dev/null
 echo "$username:$password" | chpasswd
 unset password password2 ;
-}
-# this works with a package that has PKGBUILD file... (will fix it to work with make files later)...
-# tested... Done.
+} # this works with a package that has PKGBUILD file... (will fix it to work with make files later)...  tested... Done.
 gitInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
+
+
+
 	repoName=$(basename $1 .git)
 	printf "installing $repoName ..."
 
@@ -120,7 +121,8 @@ setUpConfigs(){
 	[ ! -d "$2" ] && mkdir -p "$2"
 	chown "$username":wheel "$dir" "$2"
 	sudo -u "$username" git clone --recursive -b "$branch" --depth 1 --recurse-submodules "$1" "$dir" >/dev/null 2>&1
-	sudo -u "$username" cp -rfT "$dir" "$2"}
+	sudo -u "$username" cp -rfT "$dir" "$2"
+}
 
 
 
