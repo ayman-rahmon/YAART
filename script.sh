@@ -46,7 +46,6 @@ done;
 
 # tested...Done.
 addUserAndPass(){
-	printf "username in add "$userName" "
 useradd --create-home -m -g wheel -s /bin/zsh "$userName" > /dev/null
 echo "$userName:$password" | chpasswd
 unset password password2 ;

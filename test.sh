@@ -27,7 +27,7 @@ done;
 
 addUserAndPass(){
 useradd --create-home -m -g wheel -s /bin/zsh "$userName" > /dev/null
-echo "$username:$password" | chpasswd
+echo "$userName:$password" | chpasswd
 unset password password2 ;
 }
 setUpConfigs(){
