@@ -1,6 +1,7 @@
 #!/bin/sh
 
-dotRepo="main"
+dotFilesRepo="https://github.com/ayman-rahmon/MyConfig.git"
+dotRepoBranch="main"
 userName="placeHolder"
 password="password"
 getUserAndPass(){
@@ -30,19 +31,32 @@ useradd --create-home -m -g wheel -s /bin/zsh "$userName" > /dev/null
 echo "$userName:$password" | chpasswd
 unset password password2 ;
 }
+setUpConfigs2(){
+	# check if the branch was inputed and if not use the default branch
+	#[ -z "$3" ] && branch="main" || branch="$dotRepo"
+	# check if the user exists and the directory for it exist...
+	#[ ! -d "$2"] && mkdir -p "$2"]
+	# clone repo...
+	repoName=$(basename $1 .git)
+ 	# copying everything in the target folder...
+	(git clone "$1" && cd "$repo" && cp  -r * "$2" )
+	# cleaning up...
+	rm -rf $repoName
+}
 setUpConfigs(){
 # add more config files to the system...
-	[ -z "$3" ] && branch="main" || branch="$dotRepo"
+echo 'hello there2...'
+	[ -z "$3" ] && branch="main" || branch="$dotRepoBranch"
 	dir=$(mktemp -d)
 	[ ! -d "$2" ] && mkdir -p "$2"
 	chown tatsujin:wheel "$dir" "$2"
-	sudo -u tatsujin git clone --recursive -b "&branch" --depth 1 --recurse-submodules "$1" "$dir" > /dev/null 2>&1
+	sudo -u tatsujin git clone --recursive -b "$branch" --depth 1 --recurse-submodules "$1" "$dir" #> /dev/null 2>&1
 	sudo -u tatsujin cp -rfT "$dir" "$2"
 }
 
 
 putgitrepo() { # Downloads a gitrepo $1 and places the files in $2 only overwriting conflicts
-	[ -z "$3" ] && branch="main" || branch="$dotRepo"
+	[ -z "$3" ] && branch="main" || branch="$dotRepoBranch"
 	dir=$(mktemp -d)
 	[ ! -d "$2" ] && mkdir -p "$2"
 	chown "$userName":wheel "$dir" "$2"
@@ -65,10 +79,12 @@ gitInstall() {
 
 
 #gitInstall https://aur.archlinux.org/paru.git
-#setUpConfigs $dotFilesRepo "/home/tatsujin/temp" "main"
+echo 'hello there...'
+getUserAndPass
+setUpConfigs "$dotFilesRepo" "/home/$userName" "$dotRepoBranch"
 # putgitrepo $dotFilesRepo "/home/tatsujin/temp" "$dotRepo"
 
 # testing the paru installation thingy (AUR installation)...
 # sudo -u tatsujin paru -S --noconfirm google-chrome-dev >/dev/null 2>&1
-getUserAndPass
-addUserAndPass #pacman --noconfirm -S --needed python-cpplint 2>&1
+# getUserAndPass
+# addUserAndPass #pacman --noconfirm -S --needed python-cpplint 2>&1

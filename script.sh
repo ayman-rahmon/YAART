@@ -3,7 +3,7 @@
 
 
 # dot files variables...
-dotFilesRepo=https://github.com/ayman-rahmon/MyConfig.git
+dotFilesRepo="https://github.com/ayman-rahmon/MyConfig.git"
 dotRepoBranch="main"
 # script variables...
 programsTable="programs.csv"
@@ -22,7 +22,7 @@ introduction() {
 }
 
 # get the username and password...
-# tested...Done.
+# tested...Done.(also passed integration test)...
 getUserAndPass(){
 # prompt the user to enter their userName and validate it...
 read -p 'UserName: ' userName
@@ -44,14 +44,14 @@ while ! [ "$password" = "$password2" ]; do
 done;
 }
 
-# tested...Done.
+# tested...Done.(also passed integration testing)...
 addUserAndPass(){
 useradd --create-home -m -g wheel -s /bin/zsh "$userName" > /dev/null
 echo "$userName:$password" | chpasswd
 unset password password2 ;
 }
 
-
+# passed unit test and integration testing...
 gitInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
 	repoName=$(basename $1 .git)
@@ -63,16 +63,16 @@ gitInstall() {
 	rm -rf $repoName
 	printf "done installing $repoName ."
 }
-
+# passed unit test and integration testing...
 installAURHelper() {
 	# method to install AUR Helper...
 sudo -u "$username" $aurHelper  -S --noconfirm $1 >/dev/null 2>&1
 }
-
+# passed unit test and integration testing...
 pacmanInstall(){
 pacman --noconfirm -S --needed $1 2>&1
 }
-
+# passed unit test and integration testing...
 # installs all the packages in the table with the appropriate method of installation
 installPackages() {
 # check if our aur helper is installed...
@@ -112,19 +112,20 @@ done < $programsTable
 
 }
 
-# tested... Done.
+# passed unit testing only...
 setUpConfigs(){
 # add more config files to the system...
+echo 'hello there2...'
 	[ -z "$3" ] && branch="main" || branch="$dotRepoBranch"
 	dir=$(mktemp -d)
 	[ ! -d "$2" ] && mkdir -p "$2"
-	chown "$userName":wheel "$dir" "$2"
-	sudo -u "$userName" git clone --recursive -b "$branch" --depth 1 --recurse-submodules "$1" "$dir" >/dev/null 2>&1
-	sudo -u "$userName" cp -rfT "$dir" "$2"
+	chown tatsujin:wheel "$dir" "$2"
+	sudo -u tatsujin git clone --recursive -b "$branch" --depth 1 --recurse-submodules "$1" "$dir" #> /dev/null 2>&1
+	sudo -u tatsujin cp -rfT "$dir" "$2"
 }
 
 
-
+# the following method only has integration testing cuz it has everything in it...
 main() {
 # setting up everything to run on the right time...
 # making sure that the script was started by the root user...
