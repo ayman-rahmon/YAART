@@ -119,9 +119,9 @@ echo 'hello there2...'
 	[ -z "$3" ] && branch="main" || branch="$dotRepoBranch"
 	dir=$(mktemp -d)
 	[ ! -d "$2" ] && mkdir -p "$2"
-	chown "$userName":wheel "$dir" "$2"
-	sudo -u "$userName" git clone --recursive -b "$branch" --depth 1 --recurse-submodules "$1" "$dir" #> /dev/null 2>&1
-	sudo -u "$userName" cp -rfT "$dir" "$2"
+	chown tatsujin:wheel "$dir" "$2"
+	sudo -u tatsujin git clone --recursive -b "$branch" --depth 1 --recurse-submodules "$1" "$dir" #> /dev/null 2>&1
+	sudo -u tatsujin cp -rfT "$dir" "$2"
 }
 
 
