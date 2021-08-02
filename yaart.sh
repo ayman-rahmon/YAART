@@ -48,6 +48,8 @@ done;
 addUserAndPass(){
 useradd --create-home -m -g wheel -s /bin/zsh "$userName" > /dev/null
 echo "$userName:$password" | chpasswd
+# set a place to put the sourcecode of packages that are source code based (suckless programs and make install programs) ...
+repodir="/home/$userName/.local/src"; mkdir -p "$repodir"; chown -R "$userName":wheel "$(dirname "$repodir")"
 unset password password2 ;
 }
 
@@ -62,7 +64,21 @@ gitInstall() {
 	printf "cleaning up..."
 	rm -rf $repoName
 	printf "done installing $repoName ."
+
 }
+
+# test method 2...
+gitmakeinstall3() {
+	progname="$(basename "$1" .git)"
+	dir="$repodir/$progname"
+	dialog --title "LARBS Installation" --infobox "Installing \`$progname\` ($n of $total) via \`git\` and \`make\`. $(basename "$1") $2" 5 70
+	sudo -u "$userName" git clone --depth 1 "$1" "$dir" >/dev/null 2>&1 || { cd "$dir" || return 1 ; sudo -u "$userName" git pull --force origin master;}
+	cd "$dir" || exit 1
+	make >/dev/null 2>&1
+	make install >/dev/null 2>&1
+	cd /tmp || return 1 ;}
+
+
 # test method...
 gitmakeinstall() {
 	progname="$(basename "$1" .git)"
@@ -91,7 +107,7 @@ if [ $(pacman -Qqm | grep $aurHelper) == "$aurHelper" ]; then
 
 	echo 'now we can start working on installing packages since yay is installed...'
 else
-	gitmakeinstall $aurHelperRepo || error "couldn't install aur helper..."
+	gitmakeinstall3 $aurHelperRepo || error "couldn't install aur helper..."
 fi
 
 
@@ -113,7 +129,7 @@ do
 
 	elif [ $source == 'Git' ] ; then
 		# tested...Done.
-		gitmakeinstall $package
+		gitmakeinstall3 $package
 
 	fi
 
