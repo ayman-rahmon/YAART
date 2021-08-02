@@ -71,8 +71,8 @@ gitmakeinstall() {
 #	dialog --title "LARBS Installation" --infobox "Installing \`$progname\` ($n of $total) via \`git\` and \`make\`. $(basename "$1") $2" 5 70
 	sudo -u "$userName" git clone --depth 1 "$1" "$dir"  || { cd "$dir" || return 1 ; sudo -u "$userName" git pull --force origin master;}
 	cd "$dir" || exit 1
-	make
-	make install
+	sudo -u "$userName" makepkg -si
+	# make install
 	cd /tmp || return 1 ;}
 # passed unit test and integration testing...
 installAURHelper() {
