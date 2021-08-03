@@ -1,9 +1,13 @@
 #!/bin/sh
 
+# test..
+password="password"
+gitTest="https://github.com/LukeSmithxyz/st.git"
+# script variables....
 dotFilesRepo="https://github.com/ayman-rahmon/MyConfig.git"
 dotRepoBranch="main"
 userName="placeHolder"
-password="password"
+
 aurHelperRepo="https://aur.archlinux.org/paru.git"
 getUserAndPass(){
 # prompt the user to enter their userName and validate it...
@@ -69,24 +73,24 @@ putgitrepo() { # Downloads a gitrepo $1 and places the files in $2 only overwrit
 gitInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
 	repoName=$(basename $1 .git)
-	printf "installing $repoName ... \n"
-	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
+	printf "installing $repoName ..."
 
-	(sudo -u "$userName" git clone $1 && cd $repoName && sudo -u "$userName" makepkg -si)
-	printf "cleaning up...\n"
+	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
+	(git clone $1 && cd $repoName && makepkg -si > /dev/null )
+	printf "cleaning up..."
 	rm -rf $repoName
-	printf "done installing $repoName . \n"
+	printf "done installing $repoName ."
+
 }
 
-gitmakeinstall() {
+installAURHelper() {
 	progname="$(basename "$1" .git)"
-	repodir="/home/$userName/.local/src"; mkdir -p "$repodir"; chown -R "$userName":wheel "$(dirname "$repodir")"
 	dir="$repodir/$progname"
-#	dialog --title "LARBS Installation" --infobox "Installing \`$progname\` ($n of $total) via \`git\` and \`make\`. $(basename "$1") $2" 5 70
-	sudo -u "$userName" git clone --depth 1 "$1" "$dir"  || { cd "$dir" || return 1 ; sudo -u "$userName" git pull --force origin master;}
+	dialog --title "LARBS Installation" --infobox "Installing \`$progname\` ($n of $total) via \`git\` and \`make\`. $(basename "$1") $2" 5 70
+	sudo -u "$userName" git clone --depth 1 "$1" "$dir" >/dev/null 2>&1 || { cd "$dir" || return 1 ; sudo -u "$userName" git pull --force origin master;}
 	cd "$dir" || exit 1
-	sudo -u "$userName" makepkg -si
-	#make install
+	make >/dev/null 2>&1
+	make install >/dev/null 2>&1
 	cd /tmp || return 1 ;}
 
 #gitInstall https://aur.archlinux.org/paru.git
@@ -94,7 +98,7 @@ echo 'hello there...'
 getUserAndPass
 #setUpConfigs "$dotFilesRepo" "/home/$userName" "$dotRepoBranch"
 # putgitrepo $dotFilesRepo "/home/tatsujin/temp" "$dotRepo"
-gitmakeinstall $aurHelperRepo
+gitInstall $gitTest
 # testing the paru installation thingy (AUR installation)...
 # sudo -u tatsujin paru -S --noconfirm google-chrome-dev >/dev/null 2>&1
 # getUserAndPass

@@ -67,8 +67,7 @@ gitInstall() {
 
 }
 
-# test method 2...
-gitmakeinstall3() {
+installAURHelper() {
 	progname="$(basename "$1" .git)"
 	dir="$repodir/$progname"
 	dialog --title "LARBS Installation" --infobox "Installing \`$progname\` ($n of $total) via \`git\` and \`make\`. $(basename "$1") $2" 5 70
@@ -93,7 +92,7 @@ gitmakeinstall() {
 # passed unit test and integration testing...
 installAURHelper() {
 	# method to install AUR Helper...
-sudo -u "$userName" $aurHelper  -S --noconfirm $1 >/dev/null 2>&1
+sudo -u "$username" $aurHelper  -S --noconfirm $1 >/dev/null 2>&1
 }
 # passed unit test and integration testing...
 pacmanInstall(){
@@ -107,7 +106,7 @@ if [ $(pacman -Qqm | grep $aurHelper) == "$aurHelper" ]; then
 
 	echo 'now we can start working on installing packages since yay is installed...'
 else
-	gitmakeinstall3 $aurHelperRepo || error "couldn't install aur helper..."
+	installAURHelper $aurHelperRepo || error "couldn't install aur helper..."
 fi
 
 
@@ -129,7 +128,7 @@ do
 
 	elif [ $source == 'Git' ] ; then
 		# tested...Done.
-		gitmakeinstall3 $package
+		gitmakeinstall $package
 
 	fi
 
