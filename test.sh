@@ -76,7 +76,7 @@ gitInstall() {
 	printf "installing $repoName ..."
 
 	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
-	(git clone $1 && cd $repoName && makepkg -si > /dev/null )
+	(git clone $1 && cd $repoName && chown "$userName":wheel && sudo -u "$userName" makepkg -si > /dev/null )
 	printf "cleaning up..."
 	rm -rf $repoName
 	printf "done installing $repoName ."
