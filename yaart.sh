@@ -60,7 +60,7 @@ installingTheAURHelper() {
 	printf "installing $repoName ..."
 
 	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
-	(git clone $1 && cd $repoName && sudo -u "$userName" makepkg -si > /dev/null 2>&1)
+	(git clone $1 && cd $repoName && sudo -u "$userName" makepkg -si ) # > /dev/null 2>&1
 	printf "cleaning up..."
 	rm -rf $repoName
 	printf "done installing $repoName ."
@@ -73,7 +73,7 @@ gitInstall() {
 	printf "installing $repoName ..."
 
 	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
-	(git clone $1 && cd $repoName && make > /dev/null 2>&1  && make install > /dev/null 2>&1)
+	(git clone $1 && cd $repoName && make   && make install )
 	printf "cleaning up..."
 	rm -rf $repoName
 	printf "done installing $repoName ."
@@ -84,11 +84,11 @@ gitInstall() {
 # passed unit test and integration testing...
 AURInstall() {
 	# method to install AUR Helper...
-sudo -u "$username" $aurHelper  -S --noconfirm $1 >/dev/null 2>&1
+sudo -u "$username" $aurHelper  -S --noconfirm $1
 }
 # passed unit test and integration testing...
 pacmanInstall(){
-pacman --noconfirm -S --needed $1 2>&1
+pacman --noconfirm -S --needed $1
 }
 # passed unit test and integration testing...
 # installs all the packages in the table with the appropriate method of installation
