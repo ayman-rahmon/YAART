@@ -60,14 +60,18 @@ echo 'hello there2...'
 }
 
 
-putgitrepo() { # Downloads a gitrepo $1 and places the files in $2 only overwriting conflicts
-	[ -z "$3" ] && branch="main" || branch="$dotRepoBranch"
-	dir=$(mktemp -d)
-	[ ! -d "$2" ] && mkdir -p "$2"
-	chown "$userName":wheel "$dir" "$2"
-	sudo -u "$userName" git clone --recursive -b "$branch" --depth 1 --recurse-submodules "$1" "$dir" >/dev/null 2>&1
-	sudo -u "$userName" cp -rfT "$dir" "$2"
-	}
+
+manualinstall() { # Installs $1 manually if not installed. Used only for AUR helper here.
+	[ -f "/usr/bin/$1" ] || (
+	dialog --infobox "Installing \"$1\", an AUR helper..." 4 50
+	cd /tmp || exit 1
+	rm -rf /tmp/"$1"*
+	curl -sO https://aur.archlinux.org/cgit/aur.git/snapshot/"$1".tar.gz &&
+	sudo -u "$name" tar -xvf "$1".tar.gz >/dev/null 2>&1 &&
+	cd "$1" &&
+	sudo -u "$name" makepkg --noconfirm -si >/dev/null 2>&1 || return 1
+	cd /tmp || return 1) ;}
+
 
 
 gitInstall() {
@@ -76,29 +80,33 @@ gitInstall() {
 	printf "installing $repoName ..."
 
 	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
-	(git clone $1 && cd $repoName && chown "$userName":wheel && sudo -u "$userName" makepkg -si > /dev/null )
+	(git clone $1 && cd $repoName && chown "$userName":wheel && sudo -u "$userName" makepkg -si )
 	printf "cleaning up..."
 	rm -rf $repoName
 	printf "done installing $repoName ."
-
 }
 
-installAURHelper() {
-	progname="$(basename "$1" .git)"
-	dir="$repodir/$progname"
-	dialog --title "LARBS Installation" --infobox "Installing \`$progname\` ($n of $total) via \`git\` and \`make\`. $(basename "$1") $2" 5 70
-	sudo -u "$userName" git clone --depth 1 "$1" "$dir" >/dev/null 2>&1 || { cd "$dir" || return 1 ; sudo -u "$userName" git pull --force origin master;}
-	cd "$dir" || exit 1
-	make >/dev/null 2>&1
-	make install >/dev/null 2>&1
-	cd /tmp || return 1 ;}
+
+
+installingTheAURHelper() {
+	# consider keeping the source somewhere in the system later (for suckless programs)...
+	repoName=$(basename $1 .git)
+	printf "installing $repoName ..."
+
+	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
+	(git clone $1 && cd $repoName && sudo -u "$userName" makepkg -si )
+	printf "cleaning up..."
+	rm -rf $repoName
+	printf "done installing $repoName ."
+}
+
 
 #gitInstall https://aur.archlinux.org/paru.git
 echo 'hello there...'
 getUserAndPass
 #setUpConfigs "$dotFilesRepo" "/home/$userName" "$dotRepoBranch"
 # putgitrepo $dotFilesRepo "/home/tatsujin/temp" "$dotRepo"
-gitInstall $gitTest
+installingTheAURHelper $aurHelperRepo
 # testing the paru installation thingy (AUR installation)...
 # sudo -u tatsujin paru -S --noconfirm google-chrome-dev >/dev/null 2>&1
 # getUserAndPass

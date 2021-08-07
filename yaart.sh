@@ -53,6 +53,19 @@ repodir="/home/$userName/.local/src"; mkdir -p "$repodir"; chown -R "$userName":
 unset password password2 ;
 }
 
+
+installingTheAURHelper() {
+	# consider keeping the source somewhere in the system later (for suckless programs)...
+	repoName=$(basename $1 .git)
+	printf "installing $repoName ..."
+
+	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
+	(git clone $1 && cd $repoName && sudo -u "$userName" makepkg -si > /dev/null 2>&1)
+	printf "cleaning up..."
+	rm -rf $repoName
+	printf "done installing $repoName ."
+}
+
 # passed unit test on non-root user...
 gitInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
@@ -85,7 +98,7 @@ if [ $(pacman -Qqm | grep $aurHelper) == "$aurHelper" ]; then
 
 	echo 'now we can start working on installing packages since yay is installed...'
 else
-	gitInstall $aurHelperRepo || error "couldn't install aur helper..."
+	installingTheAURHelper $aurHelperRepo || error "couldn't install aur helper..."
 fi
 
 
