@@ -60,17 +60,16 @@ gitInstall() {
 	printf "installing $repoName ..."
 
 	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
-	(git clone $1 && cd $repoName && makepkg -si > /dev/null )
+	(git clone $1 && cd $repoName && make > /dev/null 2>&1  && make install > /dev/null 2>&1)
 	printf "cleaning up..."
 	rm -rf $repoName
 	printf "done installing $repoName ."
-
 }
 
 
 # testing method...
 # passed unit test and integration testing...
-installAURHelper() {
+AURInstall() {
 	# method to install AUR Helper...
 sudo -u "$username" $aurHelper  -S --noconfirm $1 >/dev/null 2>&1
 }
@@ -104,7 +103,7 @@ do
 
 	elif [ $source == 'aur' ] ; then
 		# tested...Done.
-		installAURHelper $package
+		AURInstall $package
 
 	elif [ $source == 'Git' ] ; then
 		# tested...Done.
