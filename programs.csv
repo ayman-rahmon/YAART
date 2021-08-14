@@ -55,8 +55,9 @@ aur,simple-mtpfs,enables the mounting of cell phones.
 aur,htop-vim-git,is a graphical and colorful system monitor.
 Git,https://github.com/lukesmithxyz/st.git,a terminal emulator
 pacman,slock,"allows you to lock your computer , and quickly unlock it with your password."
-pacman,i3-wm,i3 window manager.
+pacman,i3-gaps,i3 window manager.
 pacman,i3lock,a screen locker for i3.
 pacman,qutebrowser,a vim based web browser.
 pacman,i3blocks,a status bar for i3 window manager
 pacman,firefox,the firefox browser.
+Git,https://github.com/lukesmithxyz/dmenu.git,an application launcher
