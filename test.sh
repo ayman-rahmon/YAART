@@ -7,7 +7,7 @@ gitTest="https://github.com/LukeSmithxyz/st.git"
 dotFilesRepo="https://github.com/ayman-rahmon/MyConfig.git"
 dotRepoBranch="main"
 userName="placeHolder"
-
+aurHelper="paru"
 aurHelperRepo="https://aur.archlinux.org/paru.git"
 getUserAndPass(){
 # prompt the user to enter their userName and validate it...
@@ -63,13 +63,12 @@ echo 'hello there2...'
 
 manualinstall() { # Installs $1 manually if not installed. Used only for AUR helper here.
 	[ -f "/usr/bin/$1" ] || (
-	dialog --infobox "Installing \"$1\", an AUR helper..." 4 50
 	cd /tmp || exit 1
 	rm -rf /tmp/"$1"*
 	curl -sO https://aur.archlinux.org/cgit/aur.git/snapshot/"$1".tar.gz &&
-	sudo -u "$name" tar -xvf "$1".tar.gz >/dev/null 2>&1 &&
+	sudo -u "$userName" tar -xvf "$1".tar.gz  &&
 	cd "$1" &&
-	sudo -u "$name" makepkg --noconfirm -si >/dev/null 2>&1 || return 1
+	sudo -u "$userName" makepkg --noconfirm -si  || return 1
 	cd /tmp || return 1) ;}
 
 
@@ -90,14 +89,13 @@ gitInstall() {
 
 installingTheAURHelper() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
-	repoName=$(basename $1 .git)
 	printf "installing $repoName ..."
+	cd /tmp || exit 1
+	rm -rf /tmp/"$1"*
+	curl -sO https://aur.archlinux.org/cgit/aur.git/snapshot/"$1".tar.gz &&
+	sudo -u "$userName" tar -xvf "$1".tar.gz >/dev/null 2>&1 && cd "$1" && sudo -u "$userName" makepkg --noconfirm -si || return 1
 
-	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
-	(git clone $1 && cd $repoName && sudo -u "$userName" makepkg -si )
-	printf "cleaning up..."
-	rm -rf $repoName
-	printf "done installing $repoName ."
+	cd /tmp || return 1
 }
 
 
@@ -106,7 +104,7 @@ echo 'hello there...'
 getUserAndPass
 #setUpConfigs "$dotFilesRepo" "/home/$userName" "$dotRepoBranch"
 # putgitrepo $dotFilesRepo "/home/tatsujin/temp" "$dotRepo"
-installingTheAURHelper $aurHelperRepo
+manualinstall $aurHelper
 # testing the paru installation thingy (AUR installation)...
 # sudo -u tatsujin paru -S --noconfirm google-chrome-dev >/dev/null 2>&1
 # getUserAndPass
