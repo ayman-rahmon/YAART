@@ -14,8 +14,8 @@ environment="i3-wm" # this is for later when i add more options for the users to
 
 introduction() {
 	printf 'welcome to the YAART script for auto ricing.\n'
-	printf 'this script will help you rice your fresh arch install very easily with a minimal amount of effort.'
-	printf 'we just need to ask you some questions and then the rest will be fully automated...'
+	printf 'this script will help you rice your fresh arch install very easily with a minimal amount of effort. \n'
+	printf 'we just need to ask you some questions and then the rest will be fully automated... \n'
 
 
 
@@ -93,8 +93,7 @@ pacman --noconfirm -S --needed $1
 installPackages() {
 # check if our aur helper is installed...
 if [ $(pacman -Qqm | grep $aurHelper) == "$aurHelper" ]; then
-
-	echo 'now we can start working on installing packages since yay is installed...'
+#	echo 'now we can start working on installing packages since yay is installed...'
 else
 	installingTheAURHelper $aurHelperRepo || error "couldn't install aur helper..."
 fi
