@@ -21,8 +21,7 @@ introduction() {
 
 }
 
-# get the username and password...
-# tested...Done.(also passed integration test)...
+# Done
 getUserAndPass(){
 # prompt the user to enter their userName and validate it...
 read -p 'UserName: ' userName
@@ -44,7 +43,7 @@ while ! [ "$password" = "$password2" ]; do
 done;
 }
 
-# tested...Done.(also passed integration testing)...
+# Done
 addUserAndPass(){
 useradd --create-home -m -g wheel -s /bin/zsh "$userName" > /dev/null
 echo "$userName:$password" | chpasswd
@@ -53,7 +52,7 @@ repodir="/home/$userName/.local/src"; mkdir -p "$repodir"; chown -R "$userName":
 unset password password2 ;
 }
 
-
+# Problem ...
 installingTheAURHelper() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
 	repoName=$(basename $1 .git)
@@ -66,7 +65,7 @@ installingTheAURHelper() {
 	printf "done installing $repoName ."
 }
 
-# passed unit test on non-root user...
+# Done
 gitInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
 	repoName=$(basename $1 .git)
@@ -80,13 +79,12 @@ gitInstall() {
 }
 
 
-# testing method...
-# passed unit test and integration testing...
+# Done
 AURInstall() {
 	# method to install AUR Helper...
 sudo -u "$userName" $aurHelper  -S --noconfirm $1
 }
-# passed unit test and integration testing...
+# Done
 pacmanInstall(){
 pacman --noconfirm -S --needed $1
 }
