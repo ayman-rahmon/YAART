@@ -52,18 +52,18 @@ repodir="/home/$userName/.local/src"; mkdir -p "$repodir"; chown -R "$userName":
 unset password password2 ;
 }
 
-# Problem ...
+# Problem ... testing the solution...
 installingTheAURHelper() {
-	# consider keeping the source somewhere in the system later (for suckless programs)...
-	repoName=$(basename $1 .git)
-	printf "installing $repoName ..."
-
-	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
-	(git clone $1 && cd $repoName && sudo -u "$userName" makepkg -si ) # > /dev/null 2>&1
-	printf "cleaning up..."
-	rm -rf $repoName
-	printf "done installing $repoName ."
-}
+	[ -f "/usr/bin/$1" ] || (
+	cd /tmp || exit 1
+	rm -rf /tmp/"$1"*
+	curl -sO https:/aur.archlinux.org/cgit/aur.git/snapshot/"$1".tar.gz &&
+	sudo -u "$userName" tar -xvf "$1".tar.gz &&
+	cd "$1" &&
+	sudo -u "$userName" makepkg --noconfirm -si || return 1
+	cd /tmp || return 1
+	);
+	}
 
 # Done
 gitInstall() {
