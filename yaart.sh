@@ -58,9 +58,9 @@ installingTheAURHelper() {
 	cd /tmp || exit 1
 	rm -rf /tmp/"$1"*
 	curl -sO https:/aur.archlinux.org/cgit/aur.git/snapshot/"$1".tar.gz &&
-	sudo -u "$userName" tar -xvf "$1".tar.gz &&
+	sudo -u "$userName" tar -xvf "$1".tar.gz >/dev/null 2>&1 &&
 	cd "$1" &&
-	sudo -u "$userName" makepkg --noconfirm -si || return 1
+	sudo -u "$userName" makepkg --noconfirm -si >/dev/null 2>&1 || return 1
 	cd /tmp || return 1
 	);
 	}
@@ -82,11 +82,11 @@ gitInstall() {
 # Done
 AURInstall() {
 	# method to install AUR Helper...
-sudo -u "$userName" $aurHelper  -S --noconfirm $1
+sudo -u "$userName" $aurHelper  -S --noconfirm $1 >/dev/null 2>&1
 }
 # Done
 pacmanInstall(){
-pacman --noconfirm -S --needed $1
+pacman --noconfirm -S --needed $1 >/dev/null 2>&1
 }
 # passed unit test and integration testing...
 # installs all the packages in the table with the appropriate method of installation
