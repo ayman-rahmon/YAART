@@ -1,7 +1,7 @@
 #bin/bash
 # this script is written by Ayman Rahmon and it was designed to be run from the root user of a fresh installed arch linux system...
 
-
+##   dfsfa
 # dot files variables...
 dotFilesRepo="https://github.com/ayman-rahmon/MyConfig.git"
 dotRepoBranch="main"
