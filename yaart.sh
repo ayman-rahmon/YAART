@@ -92,11 +92,14 @@ pacman --noconfirm -S --needed $1 >/dev/null 2>&1
 # installs all the packages in the table with the appropriate method of installation
 installPackages() {
 # check if our aur helper is installed...
-if [ $(pacman -Qqm | grep $aurHelper) == "$aurHelper" ]; then
+#if [ $(pacman -Qqm | grep $aurHelper) == "$aurHelper" ];
+#then
 #	echo 'now we can start working on installing packages since yay is installed...'
-else
-	installingTheAURHelper $aurHelperRepo || error "couldn't install aur helper..."
-fi
+# printf('starting installation...');
+#else
+#	printf('installing AUR Helper...');
+#	installingTheAURHelper $aurHelperRepo || error "couldn't install aur helper..."
+#fi
 
 
 pacman --noconfirm -Syu
