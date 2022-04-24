@@ -69,13 +69,13 @@ installingTheAURHelper() {
 gitInstall() {
 	# consider keeping the source somewhere in the system later (for suckless programs)...
 	repoName=$(basename $1 .git)
-	printf "installing $repoName ..."
+	printf "installing $repoName ... \n"
 
 	#(git clone $1 && cd $repoName && make > /dev/null && make install > /dev/null)
 	(git clone $1 && cd $repoName && make   && make install )
-	printf "cleaning up..."
+	printf "cleaning up...\n"
 	rm -rf $repoName
-	printf "done installing $repoName ."
+	printf "done installing $repoName . \n"
 }
 
 
@@ -87,6 +87,7 @@ sudo -u "$userName" $aurHelper  -S --noconfirm $1 >/dev/null 2>&1
 # Done
 pacmanInstall(){
 pacman --noconfirm -S --needed $1 >/dev/null 2>&1
+printf "\n";
 }
 # passed unit test and integration testing...
 # installs all the packages in the table with the appropriate method of installation
@@ -110,7 +111,7 @@ do
 
 
 	if [ $source == 'pacman' ] ; then
-		printf "installing $package which is a : $description"
+		printf "installing $package which is a : $description \n"
 		# tested...Done.
 		pacmanInstall $package
 
@@ -123,17 +124,25 @@ do
 		gitInstall $package
 
 	fi
-
 done < $programsTable
 
 
 
 }
 
+
+
+
+newperms() { # Set special sudoers settings for install (or after).
+	sed -i "/#YAART/d" /etc/sudoers
+	echo "$* #YAART" >> /etc/sudoers ;}
+
+
+
 # passed unit testing only...
 setUpConfigs(){
 # add more config files to the system...
-echo 'hello there2...'
+printf "setting up config files...\n"
 	[ -z "$3" ] && branch="main" || branch="$dotRepoBranch"
 	dir=$(mktemp -d)
 	[ ! -d "$2" ] && mkdir -p "$2"
@@ -154,6 +163,8 @@ introduction || error "user exited..."
 getUserAndPass || error "user exited..."
 #(TODO) probably it's a good idea to add some break for the user hear to confirm and start the process...
 
+# setting up permissions for installation
+newperms "%wheel ALL=(ALL) NOPASSWD: ALL"
 # make sure that some base packages are installed ...
 for x in base-devel git ntp zsh curl; do
 	pacmanInstall "$x"
@@ -167,10 +178,6 @@ addUserAndPass || error "problem adding the user or the password..."
 
 # allow user to run sudo...
 [ -f /etc/sudoers.pacnew ] && cp /etc/sudoers.pacnew /etc/sudoers
-
-# make it into a function later for readability...(TODO) thi is not actually working so i need to figure out why...
-printf "%wheel ALL=(ALL) ALL\n%wheel ALL=(ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot,/usr/bin/systemctl suspend,/usr/bin/wifi-menu,/usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/packer -Syu,/usr/bin/packer -Syyu,/usr/bin/systemctl restart NetworkManager,/usr/bin/rc-service NetworkManager restart,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/paru,/usr/bin/pacman -Syyuw --noconfirm" >> /etc/sudoers
-
 
 
 # change pacman and paru themes...
@@ -190,8 +197,9 @@ setUpConfigs $dotFilesRepo "/home/$userName" $dotRepoBranch
 # manually delete extra files and folders from the home of the user...
 rm -rf /home/$username/.git /home/$username/LICENSE /home/$username/README.md
 
-
-
+# make it into a function later for readability...(TODO) thi is not actually working so i need to figure out why...
+newperms "%wheel ALL=(ALL) ALL #YAART
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot,/usr/bin/systemctl suspend,/usr/bin/wifi-menu,/usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/packer -Syu,/usr/bin/packer -Syyu,/usr/bin/systemctl restart NetworkManager,/usr/bin/rc-service NetworkManager restart,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/paru,/usr/bin/pacman -Syyuw --noconfirm"
 
 }
 
