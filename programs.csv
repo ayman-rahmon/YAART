@@ -61,3 +61,6 @@ pacman,qutebrowser,a vim based web browser.
 pacman,i3blocks,a status bar for i3 window manager
 pacman,firefox,the firefox browser.
 Git,https://github.com/lukesmithxyz/dmenu.git,an application launcher
+pacman,polybar,the polybar system bar.
+pacman,alacritty,a terminal emulator.
+
