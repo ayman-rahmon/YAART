@@ -63,4 +63,5 @@ pacman,firefox,the firefox browser.
 Git,https://github.com/lukesmithxyz/dmenu.git,an application launcher
 pacman,polybar,the polybar system bar.
 pacman,alacritty,a terminal emulator.
+pacman,rofi,an alternative program launcher to dmenu.
 
